@@ -163,7 +163,10 @@ handle.cancel();
 ```
 handle = Events.builder(
         MyEvent.class,
-        (e) -> System.out.println("Received: " + e + ", thread from custom executor: " + Thread.currentThread().getName())
+        (e) -> System.out.println(
+                   "Received: " + e + ", thread from custom executor: " +
+                   Thread.currentThread().getName()
+               )
 ).executor(Executors.newSingleThreadExecutor()).subscribe();
 
 Events.publish(new MyEvent());
@@ -239,18 +242,20 @@ Events.publish(new MyEvent());
 
 handle.cancel();
 ```
-Subscription builder, listener execution on Event Dispatch Thread (asynchronously)
+* Subscription builder, listener execution on Event Dispatch Thread (asynchronously)
 ```
 handle = Events.builder(
         MyEvent.class,
-        (e) -> System.out.println("Received: " + e + ", EDT: " + SwingUtilities.isEventDispatchThread())
+        (e) -> System.out.println(
+                   "Received: " + e + ", EDT: " + SwingUtilities.isEventDispatchThread()
+               )
 ).async().subscribe(); // may also be .async().edt()
 
 Events.publish(new MyEvent());
 
 handle.cancel();
 ```
-* Local event bus, has same featured
+* Local event bus, has same features
 ```
 final EventBus myBus = Events.createBus("my-bus");
 handle = myBus.subscribe(
