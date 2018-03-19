@@ -89,26 +89,6 @@ class EventsTest {
     }
 
     @Test
-    void testSubscribeWithinProject() {
-        List<Object> events = new ArrayList<>();
-
-        final ListenerHandle handle = Events.builder(Event1.class, (e) -> {
-            //noinspection Convert2MethodRef
-            events.add(e);
-        }).withinProject(1).subscribe();
-
-        Event1 e = new Event1();
-        Events.publish(e);
-        assertTrue(events.size() == 1 && events.contains(e));
-        events.clear();
-        Events.publish(new ProjectClosedEvent(1));
-        Events.publish(new Event1());
-        assertTrue(events.isEmpty());
-
-        handle.cancel();
-    }
-
-    @Test
     void testSubscribeEdt() {
         List<Object> events = new ArrayList<>();
         AtomicBoolean edt = new AtomicBoolean(false);

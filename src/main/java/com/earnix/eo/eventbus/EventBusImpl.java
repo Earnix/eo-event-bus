@@ -359,18 +359,6 @@ class EventBusImpl implements EventBus
 				cancelListener.handleToCancel = handle;
 			}
 
-			// cancelling on project close
-			if (params.projectPk != null)
-			{
-				ProjectClosedListener cancelListener = new ProjectClosedListener();
-				cancelListener.projectPk = params.projectPk.intValue();
-				ListenerHandle cancelHandle = subscribe(ProjectClosedEvent.class, cancelListener, null, null,
-						null);
-
-				handle = mergeHandles(handle, cancelHandle);
-				cancelListener.handleToCancel = handle;
-			}
-
 			// storing handle for cleanup after weak reference removal
 			if (params.weak)
 			{
@@ -459,7 +447,7 @@ class EventBusImpl implements EventBus
 		private Subscription<T> subscription;
 
 
-		public DefaultListenerHandle(Class<T> eventClass, Subscription<T> subscription)
+		DefaultListenerHandle(Class<T> eventClass, Subscription<T> subscription)
 		{
 			this.eventClass = eventClass;
 			this.subscription = subscription;
@@ -483,6 +471,7 @@ class EventBusImpl implements EventBus
 			}
 		}
 
+		@SuppressWarnings("SuspiciousMethodCalls")
 		@Override
 		public boolean isActive()
 		{
@@ -523,21 +512,6 @@ class EventBusImpl implements EventBus
 		}
 	}
 	
-	private static class ProjectClosedListener implements Consumer<ProjectClosedEvent> 
-	{
-		private ListenerHandle handleToCancel;
-		private int projectPk;
-
-		@Override
-		public void accept(ProjectClosedEvent projectClosedEvent)
-		{
-			if (projectClosedEvent.getProjectPK() == projectPk)
-			{
-				handleToCancel.cancel();
-			}
-		}
-	}
-	
 	private static class UnsubscribingListener<T extends Event> implements Consumer<T> 
 	{
 		private ListenerHandle handleToCancel;
@@ -549,11 +523,11 @@ class EventBusImpl implements EventBus
 		}
 	}
 
-    public static List<Method> getMethodsListWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationCls) {
+    private static List<Method> getMethodsListWithAnnotation(final Class<?> cls, final Class<? extends Annotation> annotationCls) {
         Validator.isTrue(cls != null, "The class must not be null");
         Validator.isTrue(annotationCls != null, "The annotation class must not be null");
         final Method[] allMethods = cls.getMethods();
-        final List<Method> annotatedMethods = new ArrayList<Method>();
+        final List<Method> annotatedMethods = new ArrayList<>();
         for (final Method method : allMethods) {
             if (method.getAnnotation(annotationCls) != null) {
                 annotatedMethods.add(method);
