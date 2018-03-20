@@ -249,7 +249,7 @@ handle = Events.builder(
         (e) -> System.out.println(
                    "Received: " + e + ", EDT: " + SwingUtilities.isEventDispatchThread()
                )
-).async().subscribe(); // may also be .async().edt()
+).asyncEdt().subscribe(); // may also be .async().edt()
 
 Events.publish(new MyEvent());
 
