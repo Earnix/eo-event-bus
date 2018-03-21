@@ -15,7 +15,7 @@ In most cases this features may be used together.
 
 Logs events if SLF4J implementation is present in classpath and trace level is enabled for `com.earnix.eo.eventbus` package.
 
-Currently library is not deployed to any Maven repository.
+Currently library is not deployed to any Maven repository. Please ask if you need it.
 
 ## Examples
 
