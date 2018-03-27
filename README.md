@@ -20,7 +20,7 @@ Currently library is not deployed to any Maven repository. Please ask if you nee
 ## Examples
 
 * Simple subscription, synchronous listener
-```
+```java
 handle = Events.subscribe(
         MyEvent.class,
         (e) -> System.out.println("Received: " + e)
