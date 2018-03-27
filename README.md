@@ -31,7 +31,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription with event condition, synchronous listener
-```
+```java
 handle = Events.subscribe(
         MyEvent.class,
         (e) -> System.out.println("Received: " + e),
@@ -46,7 +46,7 @@ Events.publish(new MyEvent(false));
 handle.cancel();
 ```
 * Subscription with event condition, cancellation event and its condition, synchronous listener
-```
+```java
 Events.subscribe(
         MyEvent.class,
         e -> System.out.println("Received: " + e),
@@ -70,13 +70,13 @@ handle.cancel();
 
 
 * Subscribing static methods, synchronous listener
-```
+```java
 handle = Events.subscribeMethods(ListenerClass.class);
 Events.publish(new MyEvent());
 
 handle.cancel();
 ```
-```
+```java
 public class ListenerClass {
 
     @ListenEvent
@@ -86,13 +86,13 @@ public class ListenerClass {
 }
 ```
 * Subscribing static and non-static methods, synchronous listener
-```            
+```   java         
 handle = Events.subscribeMethods(new ListenerClass());
 Events.publish(new MyEvent());
 
 handle.cancel();
 ```
-```
+```java
 public class ListenerClass {
     
     @ListenEvent
@@ -107,7 +107,7 @@ public class ListenerClass {
 }
 ```
 * Subscription builder with concrete exception handling, synchronous listener
-```
+```java
 handle = Events.builder(MyEvent.class, (e) -> {
     System.out.println("Received: " + e);
     throw new IllegalArgumentException();
@@ -118,7 +118,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder with generic exception handling, synchronous listener
-```
+```java
 handle = Events.builder(MyEvent.class, (e) -> {
     System.out.println("Received: " + e);
     throw new NullPointerException();
@@ -129,7 +129,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder with several concrete and generic exception handler, synchronous listener
-```
+```java
 handle = Events.builder(MyEvent.class, (e) -> {
     System.out.println("Received: " + e);
     if (e.isEventFlag()) {
@@ -149,7 +149,7 @@ Events.publish(new MyEvent(true));
 handle.cancel();
 ```
 * Subscription builder, listener execution on new thread
-```
+```java
 handle = Events.builder(
         MyEvent.class,
         (e) -> System.out.println("Received: " + e + ", new thread: " + Thread.currentThread().getName())
@@ -160,7 +160,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder, listener execution on custom executor
-```
+```java
 handle = Events.builder(
         MyEvent.class,
         (e) -> System.out.println(
@@ -174,7 +174,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder, async listener execution after finish/interruption of other thread
-``` 
+```java
 Thread other = new Thread(() -> {
     try {
         Thread.sleep(1000);
@@ -194,7 +194,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder, delayed subscription, synchronous listener
-```
+```java
 handle = Events.builder(
         MyEvent.class,
         (e) -> System.out.println("Received: " + e)
@@ -211,7 +211,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder, weak subscription, synchronous listener
-```
+```java
 Consumer<MyEvent> listener = (e) -> System.out.println("Received: " + e);
             
 handle = Events.builder(
@@ -232,7 +232,7 @@ handle.cancel();
 ```
 
 * Subscription builder, listener execution on Event Dispatch Thread (synchronously if possible)
-```
+```java
 handle = Events.builder(
         MyEvent.class, 
         (e) -> System.out.println("Received: " + e + ", EDT: " + SwingUtilities.isEventDispatchThread())
@@ -243,7 +243,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Subscription builder, listener execution on Event Dispatch Thread (asynchronously)
-```
+```java
 handle = Events.builder(
         MyEvent.class,
         (e) -> System.out.println(
@@ -256,7 +256,7 @@ Events.publish(new MyEvent());
 handle.cancel();
 ```
 * Local event bus, has same features
-```
+```java
 final EventBus myBus = Events.createBus("my-bus");
 handle = myBus.subscribe(
         MyEvent.class, 
