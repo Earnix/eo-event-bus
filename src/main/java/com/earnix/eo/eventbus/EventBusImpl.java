@@ -36,11 +36,6 @@ class EventBusImpl implements EventBus
 	
 	private static final Duration MAINTENANCE_INTERVAL = Duration.ofSeconds(10);
 	
-	/**
-	 * A bridge that acts both as a Subscriber and as an Observable. Because it is a Subscriber, it can subscribe to one
-	 * or more Observables, and because it is an Observable, it can pass through the items it observes by re-emitting
-	 * them, and it can also emit new items.
-	 */
 	private final String name;
 	private EdtExecutor syncEdtScheduler = new EdtExecutor(true);
 	private EdtExecutor asyncEdtScheduler = new EdtExecutor(false);
